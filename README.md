@@ -1,6 +1,24 @@
 # Local AI Knowledge Assistant for Construction Enterprises
 
+Demo Preview:
+
+
+Final Screenshot:
+
+<img width="1512" height="922" alt="Screenshot 2026-04-13 at 18 08 26" src="https://github.com/user-attachments/assets/13d111fb-28c5-40fc-afec-f246fad9c323" />
+
+
+![Status](https://img.shields.io/badge/status-in%20development-yellow) ![Node](https://img.shields.io/badge/node-20%2B-green) ![Llama](https://img.shields.io/badge/LLM-Llama%203%208B-blue) ![LangChain](https://img.shields.io/badge/orchestration-LangChain.js-orange) ![ChromaDB](https://img.shields.io/badge/vector%20db-ChromaDB-purple) ![TypeScript](https://img.shields.io/badge/lang-TypeScript-blue) ![License](https://img.shields.io/badge/license-private-red)
+
 > **On-premise RAG system** for a Serbian construction company — providing engineers and site managers with instant AI-powered access to technical documentation, safety regulations, and project contracts. All data stays on the local network.
+
+```
+Tech Stack:  Node.js 20 · TypeScript · LangChain.js · Llama 3 8B · Ollama · ChromaDB · Express.js
+Domain:      Construction / Civil Engineering (Serbia)
+Deployment:  On-premise (2× NVIDIA A100 cluster, planned)
+Documents:   ~4,000 pages across regulations, contracts, safety manuals, bills of quantities
+Language:    Serbian (Latin script) — multilingual retrieval
+```
 
 ## Project Overview
 
@@ -14,7 +32,7 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 
 ## Current Status
 
-### ✅ Fixed
+### ✅ Completed
 - [x] Project architecture and tech stack selection
 - [x] Document ingestion pipeline (PDF parsing + text extraction)
 - [x] Text chunking with overlap (RecursiveCharacterTextSplitter, 1000/200)
@@ -26,10 +44,10 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 
 ### 🔄 In Progress
 - [ ] Chunking strategy optimization — testing different chunk sizes for tables vs. prose (#3)
-- [ ] Response quality evaluation on domain-specific queries (#5)
-- [ ] Serbian language handling improvements (diacritics normalization) (#7)
+- [ ] Response quality evaluation on domain-specific queries - number 3
+- [ ] Serbian language handling improvements (diacritics normalization) - number 7
 
-### 📋 To Do
+### 📋 Planned
 - [ ] Multi-document cross-referencing (e.g., link safety rules to specific project phases)
 - [ ] Web UI for site managers (simple chat interface)
 - [ ] Document versioning — track regulation updates across years
@@ -167,6 +185,67 @@ Response:
 }
 ```
 
+### Live Test Run
+
+Real queries executed against the running system on the initial document set (3 PDFs, ~750 chunks).
+
+**Query 1 — Optical network installation requirements**
+```bash
+curl -X POST http://localhost:3001/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Za koje objekte je obavezno projektovanje unutrasnjih instalacija za opticku mrezu?"}'
+```
+
+```json
+{
+  "answer": "...(answer referencing work-at-height regulations instead of optical network specs)...",
+  "sources": [
+    { "document": "Bezbednost_i_zdravlje_na_radu_Gradiliste_Beograd.pdf", "pageEstimate": 13, "relevanceScore": 0.529 },
+    { "document": "Predmer_i_predracun_radova_Faza_1.pdf", "pageEstimate": 17, "relevanceScore": 0.503 }
+  ],
+  "metadata": { "model": "llama3", "processingTimeMs": 20274, "chunksRetrieved": 4 }
+}
+```
+
+**Query 2 — Minister's prescriptions related to energy passports**
+```bash
+curl -X POST http://localhost:3001/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Sta tacno ministar propisuje u vezi sa energetskim pasosima?"}'
+```
+
+```json
+{
+  "answer": "...(answer referencing artificial lighting regulations instead of energy passports)...",
+  "sources": [
+    { "document": "Bezbednost_i_zdravlje_na_radu_Gradiliste_Beograd.pdf", "pageEstimate": 16, "relevanceScore": 0.385 },
+    { "document": "Predmer_i_predracun_radova_Faza_1.pdf", "pageEstimate": 3, "relevanceScore": 0.352 }
+  ],
+  "metadata": { "model": "llama3", "processingTimeMs": 10292, "chunksRetrieved": 4 }
+}
+```
+
+#### Test Results Analysis
+
+**What works well:**
+- Pipeline is fully operational end-to-end: ingestion → embedding → retrieval → generation
+- Source attribution, relevance scoring, and processing time all function correctly
+- Response latency is acceptable (~10–20s on CPU, target <3s on A100 cluster)
+
+**Identified issue — Retrieval noise (cross-domain interference):**
+
+Both queries demonstrate a known RAG failure mode: the retrieval step pulls chunks that are statistically similar at the embedding level but semantically irrelevant to the question.
+
+- Query 1 (optical network): Top retrieved chunk was from the safety manual, not the bill of quantities — because construction safety docs share numeric and spatial vocabulary with installation specs.
+- Query 2 (energy passports): The current document set contains no dedicated energy passport regulations. The retriever fell back to the closest lexical match (sections mentioning "ministar" and "energetski") from unrelated documents.
+
+**Root causes:**
+1. Small document corpus (3 PDFs) — no correct source exists for some queries yet
+2. Chunk boundaries split context that should stay together (especially in tables and numbered lists)
+3. No reranking step — raw cosine similarity is the only relevance signal
+
+**Planned fixes:** reranking layer - issue number 5, table-aware chunking - issue number 3, corpus expansion with full regulatory dataset in Phase 2.
+
 ## Project Structure
 
 ```
@@ -201,10 +280,10 @@ local-rag-construction-assistant/
 
 ## Known Issues & Notes
 
-- **Chunking tables**: PDF tables (e.g., bill of quantities) lose structure when split by character count. Investigating table-aware chunking — see issue 3
-- **Serbian diacritics**: Some older documents use ASCII transliteration (`č→c`, `š→s`). Need normalization layer before embedding — see issue 7
+- **Chunking tables**: PDF tables (e.g., bill of quantities) lose structure when split by character count. Investigating table-aware chunking — see issue 3.
+- **Serbian diacritics**: Some older documents use ASCII transliteration (`č→c`, `š→s`). Need normalization layer before embedding — see issue 7.
 - **Llama 3 8B context window**: 8K tokens limits the amount of context we can pass. Exploring retrieval compression and the 70B model for production deployment on client's A100 cluster.
-- **Response language**: Llama 3 sometimes switches to English mid-response when the source document mixes languages. Added system prompt enforcement but not fully reliable yet.
+- **Response language**: Llama 3 sometimes switches to English mid-response when the source document mixes languages. Added system prompt enforcement but not 100% reliable yet.
 
 ## License
 
