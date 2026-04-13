@@ -310,7 +310,7 @@ local-rag-construction-assistant/
 - **Chunking tables**: PDF tables (e.g., bill of quantities) lose structure when split by character count. Investigating table-aware chunking — see issue 3.
 - **Serbian diacritics**: Some older documents use ASCII transliteration (`č→c`, `š→s`). Need normalization layer before embedding — see issue 7.
 - **Llama 3 8B context window**: 8K tokens limits the amount of context we can pass. Exploring retrieval compression and the 70B model for production deployment on client's A100 cluster.
-- **Response language**: Llama 3 sometimes switches to English mid-response when the source document mixes languages. Added system prompt enforcement but not 100% reliable yet.
+- **Response language**: Llama 3 sometimes switches to English mid-response when the source document mixes languages. Added system prompt enforcement but not fully reliable yet.
 
 ## License
 
