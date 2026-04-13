@@ -1,6 +1,15 @@
 # Local AI Knowledge Assistant for Construction Enterprises
 
-Demo Preview:
+Query 1:
+
+
+
+
+
+Query 2:
+
+
+
 
 
 Final Screenshot:
