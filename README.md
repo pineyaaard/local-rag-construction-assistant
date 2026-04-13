@@ -14,7 +14,7 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 
 ## Current Status
 
-### ✅ Completed
+### ✅ Fixed
 - [x] Project architecture and tech stack selection
 - [x] Document ingestion pipeline (PDF parsing + text extraction)
 - [x] Text chunking with overlap (RecursiveCharacterTextSplitter, 1000/200)
@@ -29,7 +29,7 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 - [ ] Response quality evaluation on domain-specific queries (#5)
 - [ ] Serbian language handling improvements (diacritics normalization) (#7)
 
-### 📋 Planned
+### 📋 To Do
 - [ ] Multi-document cross-referencing (e.g., link safety rules to specific project phases)
 - [ ] Web UI for site managers (simple chat interface)
 - [ ] Document versioning — track regulation updates across years
