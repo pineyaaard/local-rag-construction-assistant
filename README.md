@@ -1,5 +1,17 @@
 # Local AI Knowledge Assistant for Construction Enterprises
 
+Upd:
+
+Query 0:
+
+<img width="1512" height="982" alt="Screenshot 2026-04-13 at 19 23 08" src="https://github.com/user-attachments/assets/00f4f6cd-d61b-4c95-b393-6f7fe5c4369b" />
+
+Success:
+
+<img width="1273" height="845" alt="Screenshot 2026-04-13 at 19 23 59" src="https://github.com/user-attachments/assets/7226f6dc-8a98-4b21-930b-30938446dc59" />
+
+👇👇👇 FIRST LAUNCH 👇👇👇
+
 Query 1:
 
 
@@ -54,6 +66,7 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 - [x] Basic RAG chain with Llama 3 (8B) via Ollama
 - [x] Express.js API server with query endpoint
 - [x] Initial document set: construction law, bill of quantities, safety regulations
+- [x] Web Chat UI for site managers (document filter, source citations, health check)
 
 ### 🔄 In Progress
 - [ ] Chunking strategy optimization — testing different chunk sizes for tables vs. prose (#3)
@@ -62,7 +75,6 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 
 ### 📋 Planned
 - [ ] Multi-document cross-referencing (e.g., link safety rules to specific project phases)
-- [ ] Web UI for site managers (simple chat interface)
 - [ ] Document versioning — track regulation updates across years
 - [ ] Role-based access (project managers vs. engineers vs. safety officers)
 - [ ] Deployment scripts for client's on-prem cluster (2× NVIDIA A100 nodes)
@@ -74,7 +86,7 @@ Construction and infrastructure companies handle sensitive data: project bluepri
 │                    Client Layer                          │
 │  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │
 │  │  REST API    │  │  Web Chat UI │  │  Slack Bot     │  │
-│  │  (Express)   │  │  (planned)   │  │  (planned)     │  │
+│  │  (Express)   │  │  (active)    │  │  (planned)     │  │
 │  └──────┬───────┘  └──────┬───────┘  └──────┬────────┘  │
 │         └─────────────────┼─────────────────┘           │
 │                           │                              │
@@ -263,8 +275,10 @@ Both queries demonstrate a known RAG failure mode: the retrieval step pulls chun
 
 ```
 local-rag-construction-assistant/
+├── client/
+│   └── index.html                # Chat UI (served by Express)
 ├── src/
-│   ├── server.ts                 # Express API entry point
+│   ├── server.ts                 # Express API entry point + static serving
 │   ├── config/
 │   │   └── index.ts              # Environment configuration
 │   ├── services/
