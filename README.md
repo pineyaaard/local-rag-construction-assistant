@@ -4,11 +4,15 @@ Query 1:
 
 
 
+https://github.com/user-attachments/assets/7951ec6f-9afd-4fc5-90e6-121ebabd2792
+
 
 
 Query 2:
 
 
+
+https://github.com/user-attachments/assets/45023219-eb49-439f-8911-945dbc7a364f
 
 
 
