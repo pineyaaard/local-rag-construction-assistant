@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { RAGService } from "./services/rag-service";
 import { config } from "./config";
 import { logger } from "./utils/logger";
@@ -7,6 +8,9 @@ import { logger } from "./utils/logger";
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// Serve the chat UI from /client
+app.use(express.static(path.join(__dirname, "..", "client")));
 
 // Initialize RAG service
 const ragService = new RAGService();
@@ -111,6 +115,7 @@ async function main() {
       logger.info(
         `Server running at http://${config.server.host}:${config.server.port}`
       );
+      logger.info(`  UI:   http://localhost:${config.server.port}  — Chat interface`);
       logger.info(`  POST /api/query     — Ask a question`);
       logger.info(`  GET  /api/documents — List knowledge base`);
       logger.info(`  GET  /api/health    — Health check`);
