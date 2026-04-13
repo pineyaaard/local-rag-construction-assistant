@@ -1,8 +1,4 @@
-# GitHub Issues — create these manually on GitHub after pushing the repo
-# Copy-paste each block as a separate issue
-
-## ─────────────────────────────────────────────
-## Issue #1 (CLOSED) — Initial project setup
+## Issue #1 (closed) — Initial project setup
 ## Labels: setup
 ## ─────────────────────────────────────────────
 
@@ -19,7 +15,7 @@ Set up the base project:
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #2 (CLOSED) — Document ingestion pipeline
+## Issue #2 (closed) — Document ingestion pipeline
 ## Labels: feature, core
 ## ─────────────────────────────────────────────
 
@@ -38,7 +34,7 @@ Tested with 3 initial documents — ingestion takes ~45s on my machine (M2 MacBo
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #3 (OPEN) — Table-aware chunking
+## Issue #3 (open) — Table-aware chunking
 ## Labels: enhancement, chunking
 ## ─────────────────────────────────────────────
 
@@ -70,7 +66,7 @@ Going to prototype option 1 first since it keeps everything in Node.js.
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #4 (CLOSED) — Basic RAG query endpoint
+## Issue #4 (closed) — Basic RAG query endpoint
 ## Labels: feature, core
 ## ─────────────────────────────────────────────
 
@@ -86,7 +82,7 @@ Going to prototype option 1 first since it keeps everything in Node.js.
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #5 (OPEN) — Response quality evaluation
+## Issue #5 (open) — Response quality evaluation
 ## Labels: testing, quality
 ## ─────────────────────────────────────────────
 
@@ -108,7 +104,7 @@ First 10 test questions drafted — will expand after resolving #3 (table chunki
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #6 (CLOSED) — Serbian text utilities
+## Issue #6 (closed) — Serbian text utilities
 ## Labels: i18n
 ## ─────────────────────────────────────────────
 
@@ -122,7 +118,7 @@ First 10 test questions drafted — will expand after resolving #3 (table chunki
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #7 (OPEN) — Diacritics normalization layer
+## Issue #7 (open) — Diacritics normalization layer
 ## Labels: bug, i18n
 ## ─────────────────────────────────────────────
 
@@ -144,7 +140,7 @@ Trade-off: we lose the ability to distinguish č/ć (both map to 'c'), but for t
 ---
 
 ## ─────────────────────────────────────────────
-## Issue #8 (OPEN) — Llama 3 language switching
+## Issue #8 (open) — Llama 3 language switching
 ## Labels: bug, llm
 ## ─────────────────────────────────────────────
 
